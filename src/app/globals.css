@@ -237,6 +237,8 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Mobile Nav (Phones) styling */
@@ -371,6 +373,8 @@ h1, h2, h3, h4, h5, h6 {
   .app-main {
     margin-left: 0;
     padding: 5rem 1.5rem 6.5rem 1.5rem; /* Leaves room for top header and bottom nav bar */
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   .mobile-nav-bar {
     display: flex;
