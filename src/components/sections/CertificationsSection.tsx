@@ -3,6 +3,7 @@
 import React from "react";
 import { Award, ExternalLink, Calendar, ShieldCheck } from "lucide-react";
 import { urlFor } from "../../sanity/client";
+import InteractiveCard from "../InteractiveCard";
 
 interface CertificationsSectionProps {
   certifications: any[];
@@ -26,30 +27,18 @@ export default function CertificationsSection({ certifications }: Certifications
           const imgUrl = urlFor(cert.logo)?.url();
           const numericId = String(index + 1).padStart(2, "0");
           return (
-            <div 
+            <InteractiveCard 
               key={index} 
-              className="folder-tab-card"
+              asTabCard
+              tabLabel={`CERTIFICATE ${numericId}`}
+              tabIcon={<ShieldCheck size={12} style={{ color: "var(--accent)" }} />}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                height: "100%",
-                transition: "var(--transition)"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--accent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border-color)";
+                height: "100%"
               }}
             >
-              {/* Folder tab */}
-              <div className="folder-tab-header">
-                <ShieldCheck size={12} style={{ color: "var(--accent)" }} />
-                <span>CERTIFICATE {numericId}</span>
-                <div className="folder-tab-header-fill-fix" />
-              </div>
-
               {/* Body */}
               <div style={{ display: "flex", alignItems: "flex-start", gap: "1.25rem", flexGrow: 1 }}>
                 {imgUrl ? (
@@ -113,7 +102,7 @@ export default function CertificationsSection({ certifications }: Certifications
                   </a>
                 </div>
               )}
-            </div>
+            </InteractiveCard>
           );
         })}
       </div>

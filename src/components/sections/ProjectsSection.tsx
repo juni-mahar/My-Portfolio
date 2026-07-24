@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Folder, ExternalLink, Eye, Terminal } from "lucide-react";
 import { urlFor } from "../../sanity/client";
 import { GithubIcon } from "../Icons";
+import InteractiveCard from "../InteractiveCard";
 
 interface ProjectsSectionProps {
   projects: any[];
@@ -80,39 +81,18 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         {filteredProjects.map((project, index) => {
           const imgUrl = urlFor(project.image)?.url();
           return (
-            <div 
+            <InteractiveCard 
               key={index} 
-              className="folder-tab-card"
+              asTabCard
+              tabLabel={project.category?.toUpperCase() || "PROJECT"}
+              tabIcon={<Folder size={12} style={{ color: project.featured ? "var(--accent)" : "var(--text-secondary)" }} />}
               style={{
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
-                justifyContent: "space-between",
-                transform: "translateY(0px)",
-                transition: "var(--transition)",
-                cursor: "default"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-4px)";
-                e.currentTarget.style.borderColor = "var(--accent)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0px)";
-                e.currentTarget.style.borderColor = "var(--border-color)";
+                justifyContent: "space-between"
               }}
             >
-              {/* Folder tab */}
-              <div className="folder-tab-header">
-                <Folder size={12} style={{ color: project.featured ? "var(--accent)" : "var(--text-secondary)" }} />
-                <span>{project.category?.toUpperCase() || "PROJECT"}</span>
-                {project.featured && (
-                  <span style={{ color: "var(--accent)", fontWeight: "bold", fontSize: "0.6rem", marginLeft: "0.25rem" }}>
-                    [FEATURED]
-                  </span>
-                )}
-                <div className="folder-tab-header-fill-fix" />
-              </div>
-
               {/* Card Body */}
               <div style={{ display: "flex", flexDirection: "column", gap: "1rem", flexGrow: 1 }}>
                 {imgUrl ? (
@@ -228,7 +208,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </a>
                 )}
               </div>
-            </div>
+            </InteractiveCard>
           );
         })}
       </div>
