@@ -42,9 +42,13 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           display: "flex", 
           gap: "0.5rem", 
           overflowX: "auto", 
-          paddingBottom: "0.5rem", 
-          borderBottom: "1px solid var(--border-color)" 
+          paddingBottom: "0.75rem", 
+          borderBottom: "1px solid var(--border-color)",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+          width: "100%"
         }}
+        className="hide-scrollbar"
       >
         {categories.map((cat) => (
           <button
@@ -62,6 +66,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
               cursor: "pointer",
               whiteSpace: "nowrap",
               transition: "var(--transition)",
+              flexShrink: 0
             }}
           >
             {cat.label}
@@ -69,15 +74,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
         ))}
       </div>
 
-      {/* Projects Grid */}
-      <div 
-        style={{ 
-          display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", 
-          gap: "2.5rem 1.5rem",
-          marginTop: "1.5rem"
-        }}
-      >
+      <div className="grid-responsive-320">
         {filteredProjects.map((project, index) => {
           const imgUrl = urlFor(project.image)?.url();
           return (

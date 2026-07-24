@@ -48,13 +48,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
 
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-      <div style={{ 
-        display: "grid", 
-        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
-        gap: "2.5rem",
-        width: "100%",
-        maxWidth: "960px"
-      }}>
+      <div className="grid-responsive-320" style={{ maxWidth: "960px" }}>
       {/* Contact Info & Socials */}
       <section style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>

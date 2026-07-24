@@ -46,7 +46,7 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
       </section>
 
       {/* Stats row cards using 3D InteractiveCard */}
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
+      <section className="grid-responsive-stats">
         {profile.stats?.map((stat: any, index: number) => (
           <InteractiveCard 
             key={index} 
@@ -66,7 +66,7 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
       </section>
 
       {/* About Me & Tech Stack split grids */}
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "2rem" }}>
+      <section className="grid-responsive-320">
         {/* About Me Tab Card */}
         <InteractiveCard asTabCard tabLabel="about_me.sh" tabIcon={<Terminal size={12} />}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
