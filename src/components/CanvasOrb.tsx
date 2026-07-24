@@ -4,7 +4,6 @@ import React, { useRef, useEffect } from "react";
 
 export default function CanvasOrb() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const pointerRef = useRef({ x: 0, y: 0, isHovered: false });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -17,7 +16,6 @@ export default function CanvasOrb() {
     let width = canvas.width = 300;
     let height = canvas.height = 300;
 
-    // Handle resizing or high DPI displays
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       width = canvas.width = rect.width * window.devicePixelRatio;
@@ -37,8 +35,8 @@ export default function CanvasOrb() {
     }
 
     const points: Point3D[] = [];
-    const numLatitudes = 9;
-    const numLongitudes = 16;
+    const numLatitudes = 8;
+    const numLongitudes = 14;
     const radius = 95;
 
     for (let i = 0; i <= numLatitudes; i++) {
@@ -55,10 +53,8 @@ export default function CanvasOrb() {
 
     let rotX = 0;
     let rotY = 0;
-    let targetRotXSpeed = 0.005;
-    let targetRotYSpeed = 0.007;
-    let currentRotXSpeed = 0.005;
-    let currentRotYSpeed = 0.007;
+    const rotSpeedX = 0.0012; // Extremely slow, graceful movement
+    const rotSpeedY = 0.0016;
 
     const rotateX = (p: Point3D, angle: number): Point3D => {
       const cos = Math.cos(angle);
@@ -83,9 +79,7 @@ export default function CanvasOrb() {
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Accent theme glow backdrop behind the orb
-      const accentColor = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#FF4F18";
-      
+      // Faint background glow behind sphere
       const glow = ctx.createRadialGradient(
         width / 2,
         height / 2,
@@ -94,42 +88,25 @@ export default function CanvasOrb() {
         height / 2,
         radius * 1.5
       );
-      glow.addColorStop(0, "rgba(255, 79, 24, 0.15)");
-      glow.addColorStop(0.5, "rgba(255, 79, 24, 0.03)");
+      glow.addColorStop(0, "rgba(255, 79, 24, 0.1)");
+      glow.addColorStop(0.6, "rgba(255, 79, 24, 0.01)");
       glow.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, width, height);
 
-      // Adjust rotation speed depending on pointer interaction
-      if (pointerRef.current.isHovered) {
-        // Track relative pointer coordinates and spin the globe towards cursor
-        const dx = pointerRef.current.x - width / 2;
-        const dy = pointerRef.current.y - height / 2;
-        targetRotXSpeed = dy * 0.00015;
-        targetRotYSpeed = dx * 0.00015;
-      } else {
-        targetRotXSpeed = 0.004;
-        targetRotYSpeed = 0.006;
-      }
-
-      // Smooth interpolation for speeds
-      currentRotXSpeed += (targetRotXSpeed - currentRotXSpeed) * 0.1;
-      currentRotYSpeed += (targetRotYSpeed - currentRotYSpeed) * 0.1;
-
-      rotX += currentRotXSpeed;
-      rotY += currentRotYSpeed;
+      rotX += rotSpeedX;
+      rotY += rotSpeedY;
 
       const projectedPoints: { x: number; y: number; z: number }[] = [];
       const centerX = width / 2;
       const centerY = height / 2;
-      const fov = 350; // field of view Perspective divide
+      const fov = 350;
 
-      // Project 3D to 2D
       points.forEach((p) => {
         let rotated = rotateX(p, rotX);
         rotated = rotateY(rotated, rotY);
 
-        const cameraZ = 280; // Distance of camera
+        const cameraZ = 280;
         const scale = fov / (fov + rotated.z);
         projectedPoints.push({
           x: rotated.x * scale + centerX,
@@ -139,7 +116,7 @@ export default function CanvasOrb() {
       });
 
       // Draw wireframe grid lines
-      ctx.lineWidth = 0.75;
+      ctx.lineWidth = 0.6;
 
       for (let i = 0; i <= numLatitudes; i++) {
         for (let j = 0; j < numLongitudes; j++) {
@@ -149,14 +126,12 @@ export default function CanvasOrb() {
 
           const p1 = projectedPoints[idx];
 
-          // Determine line opacity based on depth (z-index) to give realistic 3D volume
           const getOpacity = (z1: number, z2: number) => {
             const avgZ = (z1 + z2) / 2;
-            const normalizedZ = (avgZ + radius) / (2 * radius); // 0 to 1
-            return (1 - normalizedZ) * 0.5 + 0.1; // Back lines are fainter, front lines are brighter
+            const normalizedZ = (avgZ + radius) / (2 * radius);
+            return (1 - normalizedZ) * 0.4 + 0.08;
           };
 
-          // Draw horizontal latitude lines
           if (nextLonIdx < projectedPoints.length) {
             const p2 = projectedPoints[nextLonIdx];
             ctx.strokeStyle = `rgba(255, 79, 24, ${getOpacity(p1.z, p2.z)})`;
@@ -166,7 +141,6 @@ export default function CanvasOrb() {
             ctx.stroke();
           }
 
-          // Draw vertical meridian lines
           if (nextLatIdx < projectedPoints.length) {
             const p3 = projectedPoints[nextLatIdx];
             ctx.strokeStyle = `rgba(255, 79, 24, ${getOpacity(p1.z, p3.z) * 0.75})`;
@@ -178,13 +152,13 @@ export default function CanvasOrb() {
         }
       }
 
-      // Draw node intersections (small dots)
+      // Draw intersection dots
       projectedPoints.forEach((p) => {
         const normalizedZ = (p.z + radius) / (2 * radius);
-        const opacity = (1 - normalizedZ) * 0.7 + 0.1;
+        const opacity = (1 - normalizedZ) * 0.5 + 0.08;
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, opacity * 2.2, 0, 2 * Math.PI);
+        ctx.arc(p.x, p.y, opacity * 1.8, 0, 2 * Math.PI);
         ctx.fill();
       });
 
@@ -193,43 +167,21 @@ export default function CanvasOrb() {
 
     draw();
 
-    const handlePointerMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      pointerRef.current.x = e.clientX - rect.left;
-      pointerRef.current.y = e.clientY - rect.top;
-    };
-
-    const handlePointerEnter = () => {
-      pointerRef.current.isHovered = true;
-    };
-
-    const handlePointerLeave = () => {
-      pointerRef.current.isHovered = false;
-    };
-
-    canvas.addEventListener("pointermove", handlePointerMove);
-    canvas.addEventListener("pointerenter", handlePointerEnter);
-    canvas.addEventListener("pointerleave", handlePointerLeave);
-
     return () => {
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("pointermove", handlePointerMove);
-      canvas.removeEventListener("pointerenter", handlePointerEnter);
-      canvas.removeEventListener("pointerleave", handlePointerLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
       <canvas 
         ref={canvasRef} 
         style={{ 
           width: "280px", 
           height: "280px",
-          maxWidth: "100%", 
-          cursor: "grab", 
-          transition: "var(--transition)" 
+          maxWidth: "100%",
+          pointerEvents: "none" // Fully non-interactive
         }} 
       />
     </div>

@@ -22,7 +22,7 @@ export default function CertificationsSection({ certifications }: Certifications
       </section>
 
       {/* Grid List */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", marginTop: "1rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "2.5rem 1.5rem", marginTop: "1.5rem" }}>
         {certifications.map((cert, index) => {
           const imgUrl = urlFor(cert.logo)?.url();
           const numericId = String(index + 1).padStart(2, "0");

@@ -31,19 +31,6 @@ html, body {
   pointer-events: none;
 }
 
-.blueprint-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
-    rgba(255, 79, 24, 0.06),
-    transparent 70%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* Scrollbar customization */
 ::-webkit-scrollbar {
   width: 6px;
@@ -97,25 +84,6 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
-.folder-card::before, .folder-tab-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    250px circle at var(--mouse-x-local, 0px) var(--mouse-y-local, 0px),
-    rgba(255, 79, 24, 0.08),
-    transparent 70%
-  );
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.folder-card:hover::before, .folder-tab-card:hover::before {
-  opacity: 1;
-}
-
 /* The Apollo-style curved tab card header */
 .folder-tab-card {
   position: relative;
@@ -125,6 +93,12 @@ h1, h2, h3, h4, h5, h6 {
   padding: 2rem 1.5rem 1.5rem 1.5rem;
   transition: var(--transition);
   margin-top: 1.5rem;
+}
+
+.folder-card:hover, .folder-tab-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
 .folder-tab-header {

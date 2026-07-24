@@ -14,7 +14,7 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
       {/* Restructured Grid Hero Welcome banner */}
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem", alignItems: "center" }}>
+      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "2rem", alignItems: "center" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
             <span className="mono-label" style={{ background: "rgba(255, 79, 24, 0.1)", padding: "0.25rem 0.6rem", borderRadius: "4px" }}>
@@ -55,18 +55,18 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
               borderLeft: index === 0 ? "3px solid var(--accent)" : "1px solid var(--border-color)" 
             }}
           >
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--text-secondary)", textTransform: "uppercase" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--text-secondary)", textTransform: "uppercase" }}>
               {stat.label}
-            </span>
-            <span style={{ fontSize: "2rem", fontWeight: "700", marginTop: "0.5rem", color: index === 0 ? "var(--accent)" : "var(--text-primary)" }}>
+            </div>
+            <div style={{ fontSize: "2rem", fontWeight: "700", marginTop: "0.5rem", color: index === 0 ? "var(--accent)" : "var(--text-primary)" }}>
               {stat.value}
-            </span>
+            </div>
           </InteractiveCard>
         ))}
       </section>
 
       {/* About Me & Tech Stack split grids */}
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
+      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))", gap: "2rem" }}>
         {/* About Me Tab Card */}
         <InteractiveCard asTabCard tabLabel="about_me.sh" tabIcon={<Terminal size={12} />}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

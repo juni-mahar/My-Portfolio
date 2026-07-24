@@ -73,9 +73,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       <div 
         style={{ 
           display: "grid", 
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", 
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", 
           gap: "2.5rem 1.5rem",
-          marginTop: "1rem"
+          marginTop: "1.5rem"
         }}
       >
         {filteredProjects.map((project, index) => {

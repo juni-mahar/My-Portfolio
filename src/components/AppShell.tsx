@@ -6,16 +6,11 @@ import {
   Briefcase, 
   Award, 
   Mail, 
-  Terminal, 
   Menu, 
   X, 
   ArrowRight
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import SidebarDiagnostics from "./SidebarDiagnostics";
-import TerminalConsole from "./TerminalConsole";
-import CursorGlow from "./CursorGlow";
-import { playTactileClick, playBootBleep } from "./AudioChime";
 
 interface AppShellProps {
   children: (activeTab: string, setActiveTab: (tab: string) => void) => React.ReactNode;
@@ -26,11 +21,6 @@ export default function AppShell({ children }: AppShellProps) {
   const [currentTime, setCurrentTime] = useState<string>("");
 
   useEffect(() => {
-    // Play system boot synth sound on client load
-    setTimeout(() => {
-      playBootBleep();
-    }, 200);
-
     const updateTime = () => {
       const date = new Date();
       setCurrentTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
@@ -81,10 +71,7 @@ export default function AppShell({ children }: AppShellProps) {
               return (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    playTactileClick();
-                    setActiveTab(item.id);
-                  }}
+                  onClick={() => setActiveTab(item.id)}
                   className={`nav-link ${activeTab === item.id ? "active" : ""}`}
                   style={{ background: "transparent", border: "none", width: "100%", textAlign: "left", cursor: "pointer" }}
                 >
@@ -96,12 +83,8 @@ export default function AppShell({ children }: AppShellProps) {
           </div>
         </nav>
 
-        {/* Live System Diagnostics & Terminal Console */}
-        <SidebarDiagnostics />
-        <TerminalConsole />
-
         {/* Sidebar Footer */}
-        <div style={{ marginTop: "1rem", borderTop: "1px solid var(--border-color)", paddingTop: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ marginTop: "auto", borderTop: "1px solid var(--border-color)", paddingTop: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontSize: "0.75rem", fontWeight: "600" }}>System Online</span>
             <span style={{ fontSize: "0.7rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)" }}>{currentTime}</span>
@@ -109,9 +92,6 @@ export default function AppShell({ children }: AppShellProps) {
           <ThemeToggle />
         </div>
       </aside>
-
-      {/* Cursor spotlight tracking helper */}
-      <CursorGlow />
 
       {/* Mobile Top Header Shell */}
       <div className="mobile-header-bar">
@@ -151,10 +131,7 @@ export default function AppShell({ children }: AppShellProps) {
           return (
             <button
               key={item.id}
-              onClick={() => {
-                playTactileClick();
-                setActiveTab(item.id);
-              }}
+              onClick={() => setActiveTab(item.id)}
               className={`mobile-nav-item ${activeTab === item.id ? "active" : ""}`}
               style={{ background: "transparent", border: "none", cursor: "pointer", outline: "none" }}
             >
