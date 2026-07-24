@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Mail, Send, Check, AlertCircle } from "lucide-react";
 import { sendContactMessage } from "../../app/actions/contact";
 import { GithubIcon, LinkedinIcon, TwitterXIcon } from "../Icons";
+import InteractiveCard from "../InteractiveCard";
 
 interface ContactSectionProps {
   profile: any;
@@ -58,13 +59,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
         </div>
 
         {/* Directory links folder cards */}
-        <div className="folder-tab-card" style={{ marginTop: "0.5rem" }}>
-          <div className="folder-tab-header">
-            <Mail size={12} style={{ color: "var(--accent)" }} />
-            <span>channels.sh</span>
-            <div className="folder-tab-header-fill-fix" />
-          </div>
-
+        <InteractiveCard asTabCard tabLabel="channels.sh" tabIcon={<Mail size={12} style={{ color: "var(--accent)" }} />} style={{ marginTop: "0.5rem" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <a 
               href={profile.socials?.linkedin || "#"} 
@@ -108,17 +103,11 @@ export default function ContactSection({ profile }: ContactSectionProps) {
               </div>
             </a>
           </div>
-        </div>
+        </InteractiveCard>
       </section>
 
       {/* Secure Form */}
-      <section className="folder-tab-card">
-        <div className="folder-tab-header">
-          <Send size={12} style={{ color: "var(--accent)" }} />
-          <span>secure_message_payload</span>
-          <div className="folder-tab-header-fill-fix" />
-        </div>
-
+      <InteractiveCard asTabCard tabLabel="secure_message_payload" tabIcon={<Send size={12} style={{ color: "var(--accent)" }} />}>
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
             <label style={{ fontSize: "0.75rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)", textTransform: "uppercase" }}>
@@ -253,7 +242,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
             to { transform: rotate(360deg); }
           }
         `}} />
-      </section>
+      </InteractiveCard>
     </div>
   );
 }
