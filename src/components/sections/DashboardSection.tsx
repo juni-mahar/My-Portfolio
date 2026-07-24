@@ -1,7 +1,9 @@
 "use client";
 
 import React from "react";
-import { Terminal, Cpu, Clock, CheckCircle } from "lucide-react";
+import { Terminal, Cpu } from "lucide-react";
+import CanvasOrb from "../CanvasOrb";
+import InteractiveCard from "../InteractiveCard";
 
 interface DashboardSectionProps {
   profile: any;
@@ -11,47 +13,62 @@ interface DashboardSectionProps {
 export default function DashboardSection({ profile, techStack }: DashboardSectionProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-      {/* Hero Welcome banner */}
-      <section style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <span className="mono-label" style={{ background: "rgba(255, 79, 24, 0.1)", padding: "0.25rem 0.6rem", borderRadius: "4px" }}>
-            ONLINE
-          </span>
-          <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)" }}>
-            // HOST_NAME: junaid-os-client
-          </span>
+      {/* Restructured Grid Hero Welcome banner */}
+      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem", alignItems: "center" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <span className="mono-label" style={{ background: "rgba(255, 79, 24, 0.1)", padding: "0.25rem 0.6rem", borderRadius: "4px" }}>
+              ONLINE
+            </span>
+            <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)" }}>
+              // HOST_NAME: junaid-os-client
+            </span>
+          </div>
+          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", lineHeight: "1.1", fontWeight: 800, letterSpacing: "-0.03em" }}>
+            BUILDING THE <span style={{ color: "var(--accent)" }}>FUTURE</span> OF SAAS PRODUCTS.
+          </h1>
+          <p style={{ color: "var(--text-secondary)", fontSize: "1rem", lineHeight: "1.6", marginTop: "0.5rem" }}>
+            {profile.bio}
+          </p>
         </div>
-        <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", lineHeight: "1.05", fontWeight: 800 }}>
-          BUILDING THE <span style={{ color: "var(--accent)" }}>FUTURE</span> OF SAAS PRODUCTS.
-        </h1>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1.1rem", maxWidth: "700px", marginTop: "0.5rem" }}>
-          {profile.bio}
-        </p>
+        
+        {/* Playable 3D wireframe telemetry canvas orb */}
+        <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "radial-gradient(circle at center, var(--accent-glow) 0%, transparent 60%)",
+            opacity: 0.5,
+            pointerEvents: "none"
+          }} />
+          <CanvasOrb />
+        </div>
       </section>
 
-      {/* Stats row cards */}
+      {/* Stats row cards using 3D InteractiveCard */}
       <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
         {profile.stats?.map((stat: any, index: number) => (
-          <div key={index} className="folder-card" style={{ padding: "1.25rem", borderLeft: index === 0 ? "3px solid var(--accent)" : "1px solid var(--border-color)" }}>
+          <InteractiveCard 
+            key={index} 
+            style={{ 
+              padding: "1.25rem", 
+              borderLeft: index === 0 ? "3px solid var(--accent)" : "1px solid var(--border-color)" 
+            }}
+          >
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--text-secondary)", textTransform: "uppercase" }}>
               {stat.label}
             </span>
             <span style={{ fontSize: "2rem", fontWeight: "700", marginTop: "0.5rem", color: index === 0 ? "var(--accent)" : "var(--text-primary)" }}>
               {stat.value}
             </span>
-          </div>
+          </InteractiveCard>
         ))}
       </section>
 
       {/* About Me & Tech Stack split grids */}
       <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "2rem" }}>
         {/* About Me Tab Card */}
-        <div className="folder-tab-card">
-          <div className="folder-tab-header">
-            <Terminal size={12} />
-            <span>about_me.sh</span>
-            <div className="folder-tab-header-fill-fix" />
-          </div>
+        <InteractiveCard asTabCard tabLabel="about_me.sh" tabIcon={<Terminal size={12} />}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <h3 style={{ fontSize: "1.25rem" }}>Muhammad Junaid</h3>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--accent)" }}>
@@ -64,15 +81,10 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
               My engineering process values security first: strict data validation models, secure server communication channels, and hardened Content Security Policies.
             </p>
           </div>
-        </div>
+        </InteractiveCard>
 
         {/* Tech Stack Tab Card */}
-        <div className="folder-tab-card">
-          <div className="folder-tab-header">
-            <Cpu size={12} />
-            <span>tech_stack.json</span>
-            <div className="folder-tab-header-fill-fix" />
-          </div>
+        <InteractiveCard asTabCard tabLabel="tech_stack.json" tabIcon={<Cpu size={12} />}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {techStack.map((category: any, catIdx: number) => (
               <div key={catIdx} style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -105,7 +117,7 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
               </div>
             ))}
           </div>
-        </div>
+        </InteractiveCard>
       </section>
     </div>
   );

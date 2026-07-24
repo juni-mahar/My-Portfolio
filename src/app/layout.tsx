@@ -40,8 +40,7 @@ export default function RootLayout({
                   if (saved) {
                     document.documentElement.setAttribute('data-theme', saved);
                   } else {
-                    var dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+                    document.documentElement.setAttribute('data-theme', 'dark');
                   }
                 } catch (e) {}
               })();

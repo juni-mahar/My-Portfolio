@@ -97,6 +97,25 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+.folder-card::before, .folder-tab-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    250px circle at var(--mouse-x-local, 0px) var(--mouse-y-local, 0px),
+    rgba(255, 79, 24, 0.08),
+    transparent 70%
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.folder-card:hover::before, .folder-tab-card:hover::before {
+  opacity: 1;
+}
+
 /* The Apollo-style curved tab card header */
 .folder-tab-card {
   position: relative;
