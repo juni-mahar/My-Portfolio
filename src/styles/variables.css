@@ -1,0 +1,38 @@
+:root {
+  /* Common Design Tokens */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-mono: 'Space Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  --accent: #FF4F18;
+  --accent-hover: #E03D00;
+  --accent-glow: rgba(255, 79, 24, 0.15);
+  --border-radius-lg: 16px;
+  --border-radius-md: 10px;
+  --border-radius-sm: 6px;
+  --transition-bezier: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-duration: 0.3s;
+  --transition: all var(--transition-duration) var(--transition-bezier);
+
+  /* Light Theme */
+  --background: #F3F3F5;
+  --background-rgb: 243, 243, 245;
+  --card-bg: #FFFFFF;
+  --card-bg-rgb: 255, 255, 255;
+  --text-primary: #0B0B0D;
+  --text-secondary: #4B4B52;
+  --border-color: #E4E4E7;
+  --grid-line: rgba(11, 11, 13, 0.05);
+  --sidebar-width: 260px;
+  --mobile-nav-height: 72px;
+}
+
+[data-theme="dark"] {
+  /* Dark Theme */
+  --background: #0B0B0D;
+  --background-rgb: 11, 11, 13;
+  --card-bg: #141416;
+  --card-bg-rgb: 20, 20, 22;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8A8A93;
+  --border-color: #26262A;
+  --grid-line: rgba(255, 255, 255, 0.04);
+}
