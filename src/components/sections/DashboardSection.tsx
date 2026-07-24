@@ -45,25 +45,7 @@ export default function DashboardSection({ profile, techStack }: DashboardSectio
         </div>
       </section>
 
-      {/* Stats row cards using 3D InteractiveCard */}
-      <section className="grid-responsive-stats">
-        {profile.stats?.map((stat: any, index: number) => (
-          <InteractiveCard 
-            key={index} 
-            style={{ 
-              padding: "1.25rem", 
-              borderLeft: index === 0 ? "3px solid var(--accent)" : "1px solid var(--border-color)" 
-            }}
-          >
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--text-secondary)", textTransform: "uppercase" }}>
-              {stat.label}
-            </div>
-            <div style={{ fontSize: "2rem", fontWeight: "700", marginTop: "0.5rem", color: index === 0 ? "var(--accent)" : "var(--text-primary)" }}>
-              {stat.value}
-            </div>
-          </InteractiveCard>
-        ))}
-      </section>
+
 
       {/* About Me & Tech Stack split grids */}
       <section className="grid-responsive-320">
